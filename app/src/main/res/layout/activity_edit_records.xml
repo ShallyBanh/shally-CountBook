@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.countbook.EditRecordsActivity">
+    tools:context="com.example.countbook.EditRecordActivity">
 
     <Button
         android:id="@+id/button3"
@@ -21,7 +21,7 @@
         android:text="Delete Record" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/editRecordsNameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -31,20 +31,20 @@
         android:layout_alignParentEnd="true" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/editRecordsCommentText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/editText"
-        android:layout_below="@+id/editText"
+        android:layout_alignStart="@+id/editRecordsNameText"
+        android:layout_below="@+id/editRecordsNameText"
         android:ems="10"
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/editCurrentValueText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/editText2"
-        android:layout_below="@+id/editText2"
+        android:layout_alignStart="@+id/editRecordsCommentText"
+        android:layout_below="@+id/editRecordsCommentText"
         android:ems="10"
         android:hint="Current Value"
         android:inputType="textPersonName" />
@@ -62,7 +62,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/editText2"
+        android:layout_above="@+id/editRecordsCommentText"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="11dp"
         android:text="Name:" />
@@ -71,7 +71,7 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/editText3"
+        android:layout_above="@+id/editCurrentValueText"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="11dp"
         android:text="Comment" />
@@ -80,8 +80,8 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/editText3"
-        android:layout_alignBottom="@+id/editText3"
+        android:layout_alignBaseline="@+id/editCurrentValueText"
+        android:layout_alignBottom="@+id/editCurrentValueText"
         android:text="Current Value:" />
 
     <TextView
@@ -89,16 +89,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Initial Value"
-        android:layout_alignBaseline="@+id/editText4"
-        android:layout_alignBottom="@+id/editText4"
+        android:layout_alignBaseline="@+id/editInitValueText"
+        android:layout_alignBottom="@+id/editInitValueText"
         android:layout_alignParentStart="true" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/editInitValueText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/editText3"
-        android:layout_below="@+id/editText3"
+        android:layout_alignStart="@+id/editCurrentValueText"
+        android:layout_below="@+id/editCurrentValueText"
         android:layout_marginTop="22dp"
         android:ems="10"
         android:inputType="textPersonName" />
@@ -118,15 +118,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/editText4"
+        android:layout_below="@+id/editInitValueText"
         android:layout_marginTop="22dp"
         android:text="Date:" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/editRecordsDateText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/editText4"
+        android:layout_alignStart="@+id/editInitValueText"
         android:layout_alignTop="@+id/textView5"
         android:text="Date" />
 

@@ -9,13 +9,40 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
+/**
+ * This is a singleton class which keeps track of our app's data when the user quits the program so
+ * that when the user opens up the app again the previous data is still there.
+ * This is done using shared preferences.
+ */
 public class DataStore {
     private static DataStore store;
-    private static String filename="Keys";
-    private SharedPreferences SP;
+    private String FILENAME = "Keys";
+    private SharedPreferences sharedPreferences;
 
     private DataStore(Context context) {
-        SP = context.getApplicationContext().getSharedPreferences(filename,0);
+        sharedPreferences = context.getApplicationContext().getSharedPreferences(FILENAME,0);
+    }
+
+    /**
+     * Gets our record list from our shared preference's file where we last stored it
+     * @param key
+     * @return our recordlist
+     */
+    public ArrayList<Records> getDataFromSharedPreferences(String key){
+        Gson gson = new Gson();
+        ArrayList<Records> ourRecordList = new ArrayList<Records>();
+        String emptyArrayListJson = gson.toJson(new ArrayList<Records>());
+
+        //Try to grab our record list from our shared preference file if it's not found
+        //then it will return emptyArrayListJson
+        String jsonPreferences = sharedPreferences.getString(key, emptyArrayListJson);
+
+        Type type = new TypeToken<ArrayList<Records>>(){}.getType();
+
+        //Convert the string back into a ArrayList<Record> type
+        ourRecordList = gson.fromJson(jsonPreferences, type);
+
+        return ourRecordList;
     }
 
     public static DataStore getInstance(Context context) {
@@ -25,39 +52,19 @@ public class DataStore {
         return store;
     }
 
-    public void putRecords(String key, String value) {
-        Editor editor = SP.edit();
-        editor.putString(key, value);
-        editor.commit();
-    }
-
-
-    public int getInt(String key) {
-        return SP.getInt(key, 0);
-    }
-
-    public void putInt(String key, int num) {
-        Editor editor = SP.edit();
-        editor.putInt(key, num);
-        editor.commit();
-    }
-
-    public void storeRecords(String key, ArrayList<Records> list) {
+    /**
+     * Stores our record list as a key-value pair in our shared preference file
+     * @param key - the key to use to access our recordlist data
+     * @param recordList - the record list we want stored
+     */
+    public void storeRecordList(String key, ArrayList<Records> recordList) {
+        Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
-        String json = gson.toJson(list);
-        putRecords(key, json);
-    }
+        //Stringify our list
+        String recordListAsString = gson.toJson(recordList);
 
-    public ArrayList<Records> getDataFromSharedPreferences(String key){
-        Gson gson = new Gson();
-        ArrayList<Records> productFromShared = new ArrayList<Records>();
-        String json = gson.toJson(new ArrayList<Records>());
-        String jsonPreferences = SP.getString(key, json);
-
-        Type type = new TypeToken<ArrayList<Records>>(){}.getType();
-        productFromShared = gson.fromJson(jsonPreferences, type);
-
-        return productFromShared;
+        editor.putString(key, recordListAsString);
+        editor.commit();
     }
 
 }

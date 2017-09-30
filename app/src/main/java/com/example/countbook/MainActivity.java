@@ -13,82 +13,81 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 
+/**
+ * Main activity class. This activity shows a list of current records/counter and also displays the total number of
+ * records/counters
+ */
 public class MainActivity extends AppCompatActivity {
+    public ArrayAdapter<Records> adapter;
     public ListView listView;
-    public static Records itemValue;
-    public static ArrayAdapter<Records> adapter;
-  //  public static ArrayList<Records> records = new ArrayList<Records>();
-  /// public static Integer totalNumberOfRecords = 0;
-    TextView setTotalNumberOfRecords;
-    public Boolean firstStart = true;
+    public TextView totalNumberOfRecords;
+    public static Boolean firstStart = true;
     private DataStore store;
 
+    /**
+     * Fires when "Add Records" is pressed. Switches the activity to "AddRecordActivity"
+     * @param view
+     */
     public void addRecords(View view){
-        Intent intent = new Intent(getApplicationContext(), AddRecordController.class);
+        Intent intent = new Intent(getApplicationContext(), AddRecordActivity.class);
         startActivity(intent);
-
     }
 
-    public static void addRecord(Integer initVal, String name, String comment, Integer curVal, Date date){
-        RecordContainer.getInstance().getRecordList().add(new Records(initVal, name, comment, curVal, date));
-        updateView();
-    }
-
-    public static void updateView(){
-        adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        storePastData(this);
-
-    }
-
+    /**
+     * Grabs any past data of the app from our shared preferences file
+     * @param context
+     */
     public void getPastData(Context context){
         store = DataStore.getInstance(context);
         ArrayList<Records> r = store.getDataFromSharedPreferences("recordsstring");
         RecordContainer.getInstance().setRecordContainer(r); //= new ArrayList<>(store.getDataFromSharedPreferences("recordsstring"));
-}
-
-    public void storePastData(Context context){
-        store = DataStore.getInstance(context);
-
-       // store.putInt("testrecord", RecordContainer.getInstance().getTotalRecords());
-        store.storeRecords("recordsstring", RecordContainer.getInstance().getRecordList());
     }
 
+    /**
+     * Stores the past data of app in our shared preferences file
+     * @param context
+     */
+    public void storePastData(Context context){
+        store = DataStore.getInstance(context);
+        store.storeRecordList("recordsstring", RecordContainer.getInstance().getRecordList());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Reload the previous data of the app if this we are just launching the app
         if(savedInstanceState == null && firstStart == true){
             firstStart = false;
             getPastData(this);
         }
 
         setContentView(R.layout.activity_main);
-        setTotalNumberOfRecords = (TextView) findViewById(R.id.textView10);
-        setTotalNumberOfRecords.setText("Total Number Of Records: " + RecordContainer.getInstance().getTotalRecords().toString());
         listView = (ListView) findViewById(R.id.list);
+        totalNumberOfRecords = (TextView) findViewById(R.id.totalNumberOfRecordsText);
 
-        adapter = new ArrayAdapter<Records>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, RecordContainer.getInstance().getRecordList());
+        totalNumberOfRecords.setText("Total Number Of Records: " + RecordContainer.getInstance().getTotalRecords().toString());
+        adapter = new ArrayAdapter<Records>(this, android.R.layout.simple_list_item_1, android.R.id.text1, RecordContainer.getInstance().getRecordList());
         listView.setAdapter(adapter);
+        //Listens for when a record in the list is pressed
         listView.setOnItemClickListener(new OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getApplicationContext(), EditRecordActivity.class);
+                //set our currentSelectedRecord to the record we tapped on
                 CurrentSelectedRecord.getInstance().setRecord((Records)listView.getAdapter().getItem(position));
-                itemValue = (Records) listView.getItemAtPosition(position);
-                Intent intent = new Intent(getApplicationContext(), EditRecordsActivity.class);
                 startActivity(intent);
             }
-
         });
+    }
+
+    /**
+     * Stores our data when the app stops
+     */
+    @Override
+    public void onStop() {
+        super.onStop();
+        storePastData(this);
     }
 
 }
