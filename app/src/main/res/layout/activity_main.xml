@@ -1,7 +1,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    tools:ignore="NewApi"
+    android:baselineAligned="false"
+    android:weightSum="1">
 
     <ListView
         android:id="@+id/list"
@@ -13,12 +17,13 @@
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="addRecords"
         android:text="Add Record" />
 
-    <Button
-        android:id="@+id/button2"
+    <TextView
+        android:id="@+id/textView10"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Edit/Delete Record" />
+        android:layout_height="34dp"
+        android:text="Total Number Of Records:" />
 
 </LinearLayout>

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">CountBook</string>
+    <string name="comment">Comment</string>
+    <string name="name">Name</string>
+    <string name="create_record">Create Record</string>
+    <string name="initial_value">Initial Value</string>
 </resources>
