@@ -1,1 +1,3 @@
-# shally-CountBook
+# CountBook
+
+An Android Counter App
